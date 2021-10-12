@@ -2,5 +2,9 @@
   "name": "ananos-airdropper",
   "version": "1.0.0",
   "type": "module",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "lodash.partition": "4.6.0",
+    "stellar-sdk": "9.0.1"
+  }
 }
