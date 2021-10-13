@@ -12,12 +12,12 @@ const accountIDs = addresses.split('\n').filter(s => !!s)
 
 const server = new Server('https://horizon-testnet.stellar.org')
 
-async function validateAccount(accountID) {
+async function validateAccount(server, asset, accountID) {
   try {
     if (accountID.indexOf('*') !== -1) {
       // Probably a federated address
       const record = await FederationServer.resolve(accountID)
-      return validateAccount(record.account_id)
+      return validateAccount(server, asset, record.account_id)
     }
 
     if (!StrKey.isValidEd25519PublicKey(accountID)) {
@@ -40,7 +40,9 @@ async function validateAccount(accountID) {
   }
 }
 
-const validatedAccountIDs = await Promise.all(accountIDs.map(validateAccount))
+const validatedAccountIDs = await Promise.all(
+  accountIDs.map((accountID) => validateAccount(server, asset, accountID))
+)
 const [validIDs, invalidIDs] = partition(validatedAccountIDs, (id) => typeof id === 'string')
 console.log(validIDs)
 console.log(invalidIDs)
