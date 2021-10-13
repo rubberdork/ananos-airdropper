@@ -4,6 +4,7 @@
   "type": "module",
   "license": "MIT",
   "dependencies": {
+    "@ltd/j-toml": "1.20.0",
     "lodash.partition": "4.6.0",
     "stellar-sdk": "9.0.1"
   }

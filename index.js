@@ -1,13 +1,13 @@
 import { readFile } from 'fs/promises'
 import { Server, FederationServer, StrKey } from 'stellar-sdk'
+import TOML from '@ltd/j-toml'
 import partition from 'lodash.partition'
 
-const [config, addresses] = await Promise.all([
-  readFile('config.json', 'utf8'),
-  readFile('addresses.txt', 'utf8')
-])
+const [config, addresses] = await Promise.all(
+  ['config.toml', 'addresses.txt'].map(f => readFile(f, 'utf8'))
+)
 
-const { ASSET_CODE, ASSET_ISSUER } = JSON.parse(config)
+const { asset } = TOML.parse(config)
 const accountIDs = addresses.split('\n').filter(s => !!s)
 
 const server = new Server('https://horizon-testnet.stellar.org')
@@ -27,11 +27,11 @@ async function validateAccount(accountID) {
     const account = await server.loadAccount(accountID)
 
     const hasTrustLine = account.balances.some((bal) => {
-      return bal.asset_code === ASSET_CODE && bal.asset_issuer === ASSET_ISSUER && bal.is_authorized
+      return bal.asset_code === asset.code && bal.asset_issuer === asset.issuer && bal.is_authorized
     })
 
     if (!hasTrustLine) {
-      throw new Error(`No trustline to ${ASSET_CODE} found`)
+      throw new Error(`No trustline to ${asset.code} found`)
     }
 
     return accountID
