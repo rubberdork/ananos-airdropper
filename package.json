@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "@ltd/j-toml": "1.20.0",
+    "csv": "5.5.3",
     "lodash.partition": "4.6.0",
     "stellar-sdk": "9.0.1"
   }
