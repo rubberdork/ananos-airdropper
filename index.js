@@ -16,8 +16,8 @@ const validateAccount = accountValidator(server, asset)
 const accountIDs = addresses.split('\n').filter(s => !!s)
 
 const validatedAccountIDs = await Promise.all(accountIDs.map(validateAccount))
-const [validIDs, invalidIDs] = partition(validatedAccountIDs, (id) => typeof id === 'string')
+const [validIDs, invalidIDs] = partition(validatedAccountIDs, acct => acct.success)
 
 const ERROR_REPORTS_FILE = join('.', 'reports', 'errors.csv')
-writeErrorReport(ERROR_REPORTS_FILE, invalidIDs)
+writeErrorReport(ERROR_REPORTS_FILE, invalidIDs, ['address', 'reason'])
 console.log(`Found problems with ${invalidIDs.length} addresses. Errors logged in ${ERROR_REPORTS_FILE}`)
