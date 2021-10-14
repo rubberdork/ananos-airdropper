@@ -19,5 +19,5 @@ const validatedAccountIDs = await Promise.all(accountIDs.map(validateAccount))
 const [validIDs, invalidIDs] = partition(validatedAccountIDs, acct => acct.success)
 
 const ERROR_REPORTS_FILE = join('.', 'reports', 'errors.csv')
-writeErrorReport(ERROR_REPORTS_FILE, invalidIDs, ['address', 'reason'])
+writeErrorReport(ERROR_REPORTS_FILE, invalidIDs, ['fedAddress', 'address', 'reason'])
 console.log(`Found problems with ${invalidIDs.length} addresses. Errors logged in ${ERROR_REPORTS_FILE}`)
