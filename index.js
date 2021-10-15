@@ -37,7 +37,9 @@ const accountIDs = addresses.split('\n').filter(s => !!s)
 const validatedAccountIDs = await Promise.all(accountIDs.map(validateAccount))
 const [validAccounts, invalidAccounts] = partition(validatedAccountIDs, acct => acct.success)
 
-const VALIDATION_ERROR_REPORT = join(BASEDIR, 'reports', 'validation-errors.csv')
+const timestamp = Date.now()
+
+const VALIDATION_ERROR_REPORT = join(BASEDIR, 'reports', `validation-errors-${timestamp}.csv`)
 writeReport(VALIDATION_ERROR_REPORT, invalidAccounts, ['address', 'fedAddress', 'reason'])
 console.log(`Found problems with ${invalidAccounts.length} addresses. Errors logged in ${VALIDATION_ERROR_REPORT}`)
 
@@ -56,7 +58,7 @@ for (let acct of validAccounts) {
   }
 }
 
-const AIRDROP_RESULTS_REPORT = join(BASEDIR, 'reports', 'airdrop-results.csv')
-const AIRDROP_ERROR_LOGS = join(BASEDIR, 'logs', 'airdrop-errors.json')
+const AIRDROP_RESULTS_REPORT = join(BASEDIR, 'reports', `airdrop-results-${timestamp}.csv`)
+const AIRDROP_ERROR_LOGS = join(BASEDIR, 'logs', `airdrop-errors-${timestamp}.json`)
 writeReport(AIRDROP_RESULTS_REPORT, airdropResults, ['address', 'fedAddress', 'success', 'tx_hash', 'reason'])
 writeLog(AIRDROP_ERROR_LOGS, airdropErrors)
