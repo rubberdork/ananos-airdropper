@@ -6,7 +6,7 @@ import partition from 'lodash.partition'
 
 import { accountValidator } from './lib/account_validator.js'
 import { paymentSender } from './lib/payment_sender.js'
-import { writeReport } from './lib/write_report.js'
+import { writeReport, writeLog } from './lib/write_file.js'
 
 const pub = process.env.PUBLIC === 'true'
 const BASEDIR = pub ? '.' : 'test'
