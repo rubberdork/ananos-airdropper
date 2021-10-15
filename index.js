@@ -49,13 +49,18 @@ let airdropResults = []
 let airdropErrors = []
 for (let acct of validAccounts) {
   const drop = await sendAirdrop(acct.address)
-  const status = {
+  let status = {
     ...acct,
     ...drop,
     result: drop.success ? 'success' : 'failed'
   }
 
   airdropResults.push(status)
+
+  if (status.tx_hash) {
+    const net = NETWORK.toLowerCase()
+    status.tx_link = `https://stellar.expert/explorer/${net}/tx/${status.tx_hash}`
+  }
 
   if (!status.success) {
     airdropErrors.push(status)
@@ -64,5 +69,5 @@ for (let acct of validAccounts) {
 
 const AIRDROP_RESULTS_REPORT = join(BASEDIR, 'reports', `airdrop-results-${timestamp}.csv`)
 const AIRDROP_ERROR_LOGS = join(BASEDIR, 'logs', `airdrop-errors-${timestamp}.json`)
-writeReport(AIRDROP_RESULTS_REPORT, airdropResults, ['address', 'fedAddress', 'result', 'tx_hash', 'reason'])
+writeReport(AIRDROP_RESULTS_REPORT, airdropResults, ['address', 'fedAddress', 'result', 'tx_link', 'reason'])
 writeLog(AIRDROP_ERROR_LOGS, airdropErrors)
