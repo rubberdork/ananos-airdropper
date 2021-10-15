@@ -35,7 +35,6 @@ const accountIDs = addresses.split('\n').filter(s => !!s)
 const validatedAccountIDs = await Promise.all(accountIDs.map(validateAccount))
 const [validAccounts, invalidAccounts] = partition(validatedAccountIDs, acct => acct.success)
 
-const VALIDATION_ERROR_REPORTS_FILE = join(BASEDIR, 'reports', 'errors.csv')
-writeErrorReport(VALIDATION_ERROR_REPORTS_FILE, invalidAccounts, ['address', 'fedAddress', 'reason'])
-console.log(`Found problems with ${invalidAccounts.length} addresses. Errors logged in ${VALIDATION_ERROR_REPORTS_FILE}`)
-
+const VALIDATION_ERROR_REPORT = join(BASEDIR, 'reports', 'validation-errors.csv')
+writeErrorReport(VALIDATION_ERROR_REPORT, invalidAccounts, ['address', 'fedAddress', 'reason'])
+console.log(`Found problems with ${invalidAccounts.length} addresses. Errors logged in ${VALIDATION_ERROR_REPORT}`)
