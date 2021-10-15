@@ -1,3 +1,7 @@
 [asset]
 code = ""
 issuer = ""
+distributor = ""
+
+[airdrop]
+amount = 1000000
