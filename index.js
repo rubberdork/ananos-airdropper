@@ -43,18 +43,20 @@ console.log(`Found problems with ${invalidAccounts.length} addresses. Errors log
 
 // Send airdrops in series to avoid race conditions and other sequence number
 // fuckery.
+let airdropResults = []
 let airdropErrors = []
-let dropSuccess = []
 for (let acct of validAccounts) {
   const drop = await sendAirdrop(acct.address)
   const status = { ...acct, ...drop }
+
+  airdropResults.push(status)
 
   if (!status.success) {
     airdropErrors.push(status)
   }
 }
 
-const AIRDROP_ERROR_REPORT = join(BASEDIR, 'reports', 'airdrop-errors.csv')
+const AIRDROP_RESULTS_REPORT = join(BASEDIR, 'reports', 'airdrop-results.csv')
 const AIRDROP_ERROR_LOGS = join(BASEDIR, 'logs', 'airdrop-errors.json')
-writeReport(AIRDROP_ERROR_REPORT, airdropErrors, ['address', 'fedAddress', 'reason'])
+writeReport(AIRDROP_RESULTS_REPORT, airdropResults, ['address', 'fedAddress', 'success', 'tx_hash', 'reason'])
 writeLog(AIRDROP_ERROR_LOGS, airdropErrors)
