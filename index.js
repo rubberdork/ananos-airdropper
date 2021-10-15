@@ -6,7 +6,7 @@ import partition from 'lodash.partition'
 
 import { accountValidator } from './lib/account_validator.js'
 import { paymentSender } from './lib/payment_sender.js'
-import { writeErrorReport } from './lib/write_error_report.js'
+import { writeReport } from './lib/write_report.js'
 
 const pub = process.env.PUBLIC === 'true'
 const BASEDIR = pub ? '.' : 'test'
@@ -38,7 +38,7 @@ const validatedAccountIDs = await Promise.all(accountIDs.map(validateAccount))
 const [validAccounts, invalidAccounts] = partition(validatedAccountIDs, acct => acct.success)
 
 const VALIDATION_ERROR_REPORT = join(BASEDIR, 'reports', 'validation-errors.csv')
-writeErrorReport(VALIDATION_ERROR_REPORT, invalidAccounts, ['address', 'fedAddress', 'reason'])
+writeReport(VALIDATION_ERROR_REPORT, invalidAccounts, ['address', 'fedAddress', 'reason'])
 console.log(`Found problems with ${invalidAccounts.length} addresses. Errors logged in ${VALIDATION_ERROR_REPORT}`)
 
 // Send airdrops in series to avoid race conditions and other sequence number
@@ -55,4 +55,4 @@ for (let acct of validAccounts) {
 }
 
 const AIRDROP_ERROR_REPORT = join(BASEDIR, 'reports', 'airdrop-errors.csv')
-writeErrorReport(AIRDROP_ERROR_REPORT, dropErrors, ['address', 'fedAddress', 'reason'])
+writeReport(AIRDROP_ERROR_REPORT, dropErrors, ['address', 'fedAddress', 'reason'])
