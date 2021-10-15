@@ -49,7 +49,11 @@ let airdropResults = []
 let airdropErrors = []
 for (let acct of validAccounts) {
   const drop = await sendAirdrop(acct.address)
-  const status = { ...acct, ...drop }
+  const status = {
+    ...acct,
+    ...drop,
+    result: drop.success ? 'success' : 'failed'
+  }
 
   airdropResults.push(status)
 
@@ -60,5 +64,5 @@ for (let acct of validAccounts) {
 
 const AIRDROP_RESULTS_REPORT = join(BASEDIR, 'reports', `airdrop-results-${timestamp}.csv`)
 const AIRDROP_ERROR_LOGS = join(BASEDIR, 'logs', `airdrop-errors-${timestamp}.json`)
-writeReport(AIRDROP_RESULTS_REPORT, airdropResults, ['address', 'fedAddress', 'success', 'tx_hash', 'reason'])
+writeReport(AIRDROP_RESULTS_REPORT, airdropResults, ['address', 'fedAddress', 'result', 'tx_hash', 'reason'])
 writeLog(AIRDROP_ERROR_LOGS, airdropErrors)
