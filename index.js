@@ -35,7 +35,7 @@ const networkPassphrase = Networks[NETWORK]
 const validateAccount = accountValidator(server, asset)
 const sendAirdrop = paymentSender(server, networkPassphrase, asset, airdrop.amount)
 
-const accountIDs = addresses.split('\n').filter(s => !!s)
+const accountIDs = addresses.split('\n').filter(s => !!s).filter(s => !s.trim().startsWith('#'))
 console.log(`Hardcore validation of ${accountIDs.length} addresses happening. Just a sec`)
 const validatedAccountIDs = await Promise.all(accountIDs.map(validateAccount))
 const [validAccounts, invalidAccounts] = partition(validatedAccountIDs, acct => acct.success)
