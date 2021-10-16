@@ -9,6 +9,12 @@
 
 If you don't have git or don't want to install it, look for the `Download ZIP` button.
 
+On your Command Prompt or Terminal app, navigate to the project's root directory and run:
+
+``` sh
+npm install
+```
+
 ## Test it out
 The `test` directory contains everything necessary to run an airdrop simulation of `DorkBucks` on the Stellar testnet. By default, the test will filter out 9 invalid addresses and send an airdrop of `2 DorkBucks` each to 12 valid addresses. If you want to increase the number of recipients, open the `test/addresses.txt` file and remove the `#` from the commented out public keys.
 
