@@ -4,8 +4,8 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "test": "PUBLIC=false node index.js",
-    "start": "PUBLIC=true node index.js"
+    "test": "node index.js --test",
+    "start": "node index.js --public"
   },
   "dependencies": {
     "@ltd/j-toml": "1.20.0",

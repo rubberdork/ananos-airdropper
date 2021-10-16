@@ -9,7 +9,8 @@ import { paymentSender } from './lib/payment_sender.js'
 import { writeReport, writeLog } from './lib/write_file.js'
 import { shortenAccountID } from './lib//shorten_account_id.js'
 
-const pub = process.env.PUBLIC === 'true'
+const env = process.argv[2]
+const pub = env === '--public'
 const BASEDIR = pub ? '.' : 'test'
 const NETWORK = pub ? 'PUBLIC' : 'TESTNET'
 const HORIZON_URL = `https://horizon${pub ? '' : '-testnet'}.stellar.org`
