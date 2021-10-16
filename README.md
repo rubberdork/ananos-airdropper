@@ -28,13 +28,13 @@ The script will print each step on the console and, once finished, will write re
 
 Edit these three files in the root directory:
 
-#### config.toml
+#### `config.toml`
 Open the `config.toml` file in the root directory and fill in the required details.
 
-#### addresses.txt
-Add each address on its own line. Empty lines, lines beginning with a `#` are ignored. The script can also resolve valid federated addresses.
+#### `addresses.txt`
+Add each address on its own line. Empty lines and lines beginning with a `#` are ignored. The script can also resolve valid federated addresses.
 
-#### SECRETKEY
+#### `SECRETKEY`
 Paste the distributing account's secret key. Exercise caution with this file, obviously. I couldn't think of an easier, quicker way to sign transactions. Perhaps the next version will have hardware wallet support, assuming it's possible.
 
 ### Run the command
