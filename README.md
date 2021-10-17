@@ -7,6 +7,10 @@
 
 ## Install
 
+``` sh
+git clone https://github.com/itsrubberdork/ananos-airdropper
+```
+
 If you don't have git or don't want to install it, look for the `Download ZIP` button.
 
 On your Command Prompt or Terminal app, navigate to the project's root directory and run:
