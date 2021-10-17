@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "test": "node index.js --test",
+    "validate": "node index.js --public --validate-only",
     "start": "node index.js --public"
   },
   "dependencies": {

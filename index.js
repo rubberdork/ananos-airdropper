@@ -9,8 +9,9 @@ import { paymentSender } from './lib/payment_sender.js'
 import { writeReport, writeLog } from './lib/write_file.js'
 import { shortenAccountID } from './lib//shorten_account_id.js'
 
-const env = process.argv[2]
-const pub = env === '--public'
+const args = process.argv.slice(2)
+const pub = args[0] === '--public'
+const validateOnly = args[1] === '--validate-only'
 const BASEDIR = pub ? '.' : 'test'
 const NETWORK = pub ? 'PUBLIC' : 'TESTNET'
 const HORIZON_URL = `https://horizon${pub ? '' : '-testnet'}.stellar.org`
@@ -50,6 +51,10 @@ const VALIDATION_ERROR_REPORT = join(BASEDIR, 'reports', `validation-errors-${ti
 await writeReport(VALIDATION_ERROR_REPORT, invalidAccounts, ['address', 'fedAddress', 'reason'])
 console.log(`Found ${validAccounts.length} valid accounts`)
 console.log(`Found problems with ${invalidAccounts.length} addresses. Errors logged in ${VALIDATION_ERROR_REPORT}\n`)
+
+if (validateOnly) {
+  process.exit()
+}
 
 console.log(`Sending airdrop to ${validAccounts.length} addresses\n`)
 // Send airdrops in series to avoid race conditions and other sequence number
