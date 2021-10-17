@@ -47,7 +47,8 @@ const [validAccounts, invalidAccounts] = partition(validatedAccountIDs, acct => 
 const timestamp = Date.now()
 
 const VALIDATION_ERROR_REPORT = join(BASEDIR, 'reports', `validation-errors-${timestamp}.csv`)
-writeReport(VALIDATION_ERROR_REPORT, invalidAccounts, ['address', 'fedAddress', 'reason'])
+await writeReport(VALIDATION_ERROR_REPORT, invalidAccounts, ['address', 'fedAddress', 'reason'])
+console.log(`Found ${validAccounts.length} valid accounts`)
 console.log(`Found problems with ${invalidAccounts.length} addresses. Errors logged in ${VALIDATION_ERROR_REPORT}\n`)
 
 console.log(`Sending airdrop to ${validAccounts.length} addresses\n`)
@@ -82,10 +83,10 @@ for (let acct of validAccounts) {
 const AIRDROP_RESULTS_REPORT = join(BASEDIR, 'reports', `airdrop-results-${timestamp}.csv`)
 const AIRDROP_ERROR_LOGS = join(BASEDIR, 'logs', `airdrop-errors-${timestamp}.json`)
 
-writeReport(AIRDROP_RESULTS_REPORT, airdropResults, ['address', 'fedAddress', 'result', 'tx_link', 'reason'])
+await writeReport(AIRDROP_RESULTS_REPORT, airdropResults, ['address', 'fedAddress', 'result', 'tx_link', 'reason'])
 console.log(`Airdrop finished. Results logged in ${AIRDROP_RESULTS_REPORT}`)
 
 if (airdropErrors.length) {
-  writeLog(AIRDROP_ERROR_LOGS, airdropErrors)
+  await writeLog(AIRDROP_ERROR_LOGS, airdropErrors)
   console.log(`Some errors were encountered. More info in ${AIRDROP_ERROR_LOGS}`)
 }
