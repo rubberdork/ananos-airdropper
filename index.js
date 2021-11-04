@@ -1,7 +1,7 @@
 import { join } from 'path'
 import { readFile } from 'fs/promises'
 import { Server, Networks, Keypair } from 'stellar-sdk'
-import TOML from '@ltd/j-toml'
+import toml from 'toml'
 import partition from 'lodash.partition'
 
 import { accountValidator } from './lib/account_validator.js'
@@ -29,7 +29,7 @@ setupFiles.catch((e) => {
 
 const [config, addresses, secretkey] = await setupFiles
 
-const { asset, airdrop } = TOML.parse(config)
+const { asset, airdrop } = toml.parse(config)
 asset.distributorKeypair = Keypair.fromSecret(secretkey.trim())
 
 const server = new Server(HORIZON_URL)
