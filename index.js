@@ -40,7 +40,7 @@ async function start () {
   const server = new Server(HORIZON_URL)
   const networkPassphrase = Networks[NETWORK]
   const validateAccount = accountValidator(server, asset)
-  const sendAirdrop = paymentSender(server, networkPassphrase, asset, airdrop.amount)
+  const sendAirdrop = paymentSender(server, networkPassphrase, asset, airdrop.amount, airdrop.memo)
 
   const accountIDs = addresses.split(/\r\n|\r|\n/)
                               .map(s => s.trim())
