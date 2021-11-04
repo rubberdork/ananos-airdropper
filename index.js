@@ -37,6 +37,11 @@ async function start () {
   const { asset, airdrop } = toml.parse(config)
   asset.distributorKeypair = Keypair.fromSecret(secretkey.trim())
 
+  if (Buffer.byteLength(airdrop.memo, 'utf-8') > 28) {
+    console.error('Memo must not be more than 28 bytes. Exiting…')
+    process.exit(1)
+  }
+
   const server = new Server(HORIZON_URL)
   const networkPassphrase = Networks[NETWORK]
   const validateAccount = accountValidator(server, asset)
