@@ -1,5 +1,8 @@
 import { join } from 'path'
-import { readFile } from 'fs/promises'
+
+import fs from 'fs-extra'
+const { promises: { readFile } } = fs
+
 import { Server, Networks, Keypair } from 'stellar-sdk'
 import toml from 'toml'
 import partition from 'lodash.partition'
